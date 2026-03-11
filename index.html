@@ -8,7 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-
+<script src="https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.155.0/examples/js/loaders/GLTFLoader.js"></script>
   <style>
     :root {
       /* Palette de couleurs enrichie */
@@ -519,6 +520,38 @@
   </style>
 </head>
 <body>
+  <div id="scene-container" style="width: 800px; height: 600px;"></div>
+  <script>
+  const container = document.getElementById('scene-container');
+
+  // Création de la scène
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(container.clientWidth, container.clientHeight);
+  container.appendChild(renderer.domElement);
+
+  // Lumière
+  const light = new THREE.DirectionalLight(0xffffff, 1);
+  light.position.set(1,1,1);
+  scene.add(light);
+
+  // Charger le modèle GLB
+  const loader = new THREE.GLTFLoader();
+  loader.load('nacelle.glb', function(gltf) {
+      scene.add(gltf.scene);
+      gltf.scene.position.set(0,0,0);
+  });
+
+  camera.position.z = 5;
+
+  // Animation
+  function animate() {
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+  }
+  animate();
+</script>
 
   <header class="navbar" id="navbar">
     <div class="container navbar__inner">
@@ -862,4 +895,5 @@
     });
   </script>
 </body>
+
 </html>
