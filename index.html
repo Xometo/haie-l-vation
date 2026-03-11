@@ -1,4 +1,4 @@
-*<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
@@ -8,8 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.155.0/examples/js/loaders/GLTFLoader.js"></script>
+
   <style>
     :root {
       /* Palette de couleurs enrichie */
@@ -50,12 +49,6 @@
       --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    .team-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Permet de remplir le cercle sans écraser l'image */
-  border-radius: 50%; /* Garde l'image bien ronde */
-}
     /* ----------------------------------------------------------------
        RESET & BASE
     ---------------------------------------------------------------- */
@@ -72,7 +65,7 @@
     img, svg { display: block; max-width: 100%; }
     a { text-decoration: none; color: inherit; }
     ul { list-style: none; }
-    h1, h2, h3, h4 { text-wrap: balance; } /* Améliore l'équilibre des titres */
+    h1, h2, h3, h4 { text-wrap: balance; } 
 
     /* ----------------------------------------------------------------
        LAYOUT
@@ -163,7 +156,7 @@
     .btn:hover .btn__icon { transform: translateX(6px); }
 
     /* ----------------------------------------------------------------
-       NAVBAR (Glassmorphism Poussé)
+       NAVBAR
     ---------------------------------------------------------------- */
     .navbar {
       position: fixed;
@@ -237,7 +230,7 @@
     .mobile-menu a:hover { transform: scale(1.1); color: var(--clr-accent); }
 
     /* ----------------------------------------------------------------
-       HERO SECTION — Plus dynamique
+       HERO SECTION
     ---------------------------------------------------------------- */
     .hero {
       position: relative; min-height: 100vh; display: flex; flex-direction: column;
@@ -391,7 +384,6 @@
       transition: transform 0.6s var(--ease-bounce);
       filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.1));
     }
-    /* Interaction fun : se remet droit au survol */
     .problem-visual-box:hover .problem-product-img { transform: rotate(0deg); }
 
     .danger-badge {
@@ -465,6 +457,9 @@
       border: 3px solid transparent; position: relative;
       transition: all 0.4s var(--ease-bounce);
     }
+    .team-avatar img {
+      width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+    }
     .team-avatar::after {
       content: ''; position: absolute; inset: -3px; border-radius: 50%;
       background: var(--gradient-accent); z-index: -1; opacity: 0.2;
@@ -520,38 +515,6 @@
   </style>
 </head>
 <body>
-  <div id="scene-container" style="width: 800px; height: 600px;"></div>
-  <script>
-  const container = document.getElementById('scene-container');
-
-  // Création de la scène
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-  const renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setSize(container.clientWidth, container.clientHeight);
-  container.appendChild(renderer.domElement);
-
-  // Lumière
-  const light = new THREE.DirectionalLight(0xffffff, 1);
-  light.position.set(1,1,1);
-  scene.add(light);
-
-  // Charger le modèle GLB
-  const loader = new THREE.GLTFLoader();
-  loader.load('nacelle.glb', function(gltf) {
-      scene.add(gltf.scene);
-      gltf.scene.position.set(0,0,0);
-  });
-
-  camera.position.z = 5;
-
-  // Animation
-  function animate() {
-      requestAnimationFrame(animate);
-      renderer.render(scene, camera);
-  }
-  animate();
-</script>
 
   <header class="navbar" id="navbar">
     <div class="container navbar__inner">
@@ -742,10 +705,12 @@
       <div class="reveal delay-3">
         <model-viewer 
           src="modele/nacelle.glb" 
-          auto-rotate camera-controls 
+          auto-rotate 
+          camera-controls 
           shadow-intensity="2" 
           exposure="1.2"
           environment-image="neutral"
+          loading="lazy"
           alt="Modèle 3D de la nacelle">
           <div slot="poster" style="display:flex;align-items:center;justify-content:center;height:100%;color:#A1A1A6;font-size:1rem; font-weight: 600;">
             Chargement du modèle 3D interactif...
@@ -895,6 +860,4 @@
     });
   </script>
 </body>
-
 </html>
-
